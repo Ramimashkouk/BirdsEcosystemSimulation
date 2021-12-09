@@ -51,4 +51,4 @@ class Population():
                 bird.sick_tick = 1
         for bird in self.population:
             if bird.sick_tick:
-                bird.get_clean(self.population)
+                bird.get_clean(self.population) 
