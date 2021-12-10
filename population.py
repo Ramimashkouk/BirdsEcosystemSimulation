@@ -52,3 +52,15 @@ class Population():
         for bird in self.population:
             if bird.sick_tick:
                 bird.get_clean(self.population) 
+
+    def get_rush_hour(self):
+        lifespans = []
+        for bird in self.population:
+            lifespans.append(bird.lifespan)
+        return lifespans
+
+    def ages(self):
+        ages = []
+        for bird in self.population:
+            ages.append(bird.age)
+        return ages
