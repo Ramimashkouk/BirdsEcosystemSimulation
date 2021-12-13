@@ -43,8 +43,16 @@ def plot(x_val, x_val_cheat, y_val, y_val_cheat):
     ax2.set_ylabel('Number of birds')
     ax2.legend(['Sucker', 'Cheat'])
 
+stop=0
+def gen():
+    global stop
+    i = 0
+    while not stop:
+        i += 1
+        yield i
+
 def animate(i):
-    global generation
+    global generation, stop
     generation +=1
     print('\nGeneration', generation)
     print('Population is ', len(population.population))
@@ -61,9 +69,13 @@ def animate(i):
         population.get_fitness()
     except ValueError:
         print('Birds are extinct')
-        os.system('pause')
+        stop=1
+
 
 fig, (ax1, ax2) = plt.subplots(1,2)
-ani = animation.FuncAnimation(fig, animate, interval =1000)
-plt.tight_layout()
+ani = animation.FuncAnimation(fig, animate, frames=gen, interval =1000, repeat=False)
+plt.tight_layout(pad=1.6)
 plt.show()
+
+# writergif = animation.PillowWriter(fps=3)
+# ani.save('animation.gif',writer=writergif , dpi = 300)
