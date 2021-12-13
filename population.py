@@ -47,8 +47,6 @@ class Population():
         return self.fit_partners[index]
 
     def azrael_turn(self):
-        n_deaths = len(self.birds_to_death)
-        print('Deaths', n_deaths,'\n')
         # remove sick or old birds
         for bird in self.birds_to_death:
             self.population.remove(bird)
@@ -78,26 +76,26 @@ class Population():
 
     def get_birds_fitness(self):
         fitness = []
-        fitness_lier = []
+        fitness_cheat = []
         for bird in self.population:
             if bird.genes['would_clean']:
                 fitness.append(bird.fitness)
             else:
-                fitness_lier.append(bird.fitness)
-        return fitness, fitness_lier
+                fitness_cheat.append(bird.fitness)
+        return fitness, fitness_cheat
 
     def ages(self):
-        ages_lier = []
+        ages_cheat = []
         ages = []
         for bird in self.population:
             if bird.genes['would_clean']:
                 ages.append(bird.age)
             else:
-                ages_lier.append(bird.age)
-        return ages, ages_lier
+                ages_cheat.append(bird.age)
+        return ages, ages_cheat
 
-    def add_lier(self, n_liers):
-        for _ in range(n_liers):
+    def add_cheat(self, n_cheats):
+        for _ in range(n_cheats):
             bird = Bird()
             bird.genes['would_clean']=0
             bird.aging()

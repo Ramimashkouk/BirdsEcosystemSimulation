@@ -9,50 +9,50 @@ def randomize_values(lst):
     lst = lst + np.array(np.random.uniform(0,1,len(lst)))
     return lst
 
-population = Population(INIT_NAIVES)
-population.add_lier(N_LIERS)
+population = Population(INIT_SUCKERS)
+population.add_cheat(N_CHEATS)
 population.get_fitness()
 generation = 0
-n_naives_by_generations = []
-n_liers_by_generations = []
+n_suckers_by_generations = []
+n_cheats_by_generations = []
 
-def plot(x_val, x_val_lier, y_val, y_val_lier):
+def plot(x_val, x_val_cheat, y_val, y_val_cheat):
     x_val = randomize_values(x_val)
     y_val = randomize_values(y_val)
-    x_val_lier = randomize_values(x_val_lier)
-    y_val_lier = randomize_values(y_val_lier)
+    x_val_cheat = randomize_values(x_val_cheat)
+    y_val_cheat = randomize_values(y_val_cheat)
     
-    print('# of Naives', len(x_val))
-    print('# of Liers', len(x_val_lier))
-    n_naives_by_generations.append(len(x_val))
-    n_liers_by_generations.append(len(x_val_lier))
+    print('# of Suckers', len(x_val))
+    print('# of Cheats', len(x_val_cheat))
+    n_suckers_by_generations.append(len(x_val))
+    n_cheats_by_generations.append(len(x_val_cheat))
     
     ax1.cla()
     ax1.scatter(y_val, x_val, c='b', alpha=0.4)
-    ax1.scatter(y_val_lier, x_val_lier, c='r', marker='s', alpha=0.4)
+    ax1.scatter(y_val_cheat, x_val_cheat, c='r', marker='s', alpha=0.4)
 
     ax1.set_title('Birds of the ' + str(generation) + ' generations')
     ax1.set_xlabel('Current age')
     ax1.set_ylabel('Birds fitness')
 
     ax2.cla()
-    ax2.plot(range(generation), n_naives_by_generations, marker='o', c='b')
-    ax2.plot(range(generation), n_liers_by_generations, marker='s', c='r')
+    ax2.plot(range(generation), n_suckers_by_generations, marker='o', c='b')
+    ax2.plot(range(generation), n_cheats_by_generations, marker='s', c='r')
     ax2.set_title('# of birds per generation')
     ax2.set_xlabel('Generation')
     ax2.set_ylabel('Number of birds')
-    ax2.legend(['Naives', 'Liers'])
+    ax2.legend(['Sucker', 'Cheat'])
 
 def animate(i):
     global generation
     generation +=1
-    print('Generation', generation)
+    print('\nGeneration', generation)
     print('Population is ', len(population.population))
     
-    x_val, x_val_lier = population.get_birds_fitness()
-    y_val, y_val_lier = population.ages()
+    x_val, x_val_cheat = population.get_birds_fitness()
+    y_val, y_val_cheat = population.ages()
 
-    plot(x_val, x_val_lier, y_val, y_val_lier)
+    plot(x_val, x_val_cheat, y_val, y_val_cheat)
 
     population.reproduce()
     population.disease()

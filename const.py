@@ -4,5 +4,5 @@ MAX_LIFESPAN = 4
 
 MAX_POPULATION = 500 # The number of birds, their environment can afford
 
-INIT_NAIVES =  5
-N_LIERS = 0
+INIT_SUCKERS =  5
+N_CHEATS = 0
