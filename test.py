@@ -12,12 +12,14 @@ def randomize_values(lst):
 population = Population(INIT_NAIVES)
 population.add_lier(N_LIERS)
 population.get_fitness()
-gen = 0
+generation = 0
+n_naives_by_generations = []
+n_liers_by_generations = []
 
 def animate(i):
-    global gen
-    gen +=1
-    print('Generation', gen)
+    global generation
+    generation +=1
+    print('Generation', generation)
     print('Population is ', len(population.population))
     
     x_val, x_val_lier = population.get_birds_fitness()
@@ -30,16 +32,24 @@ def animate(i):
     
     print('# of Naives', len(x_val))
     print('# of Liers', len(x_val_lier))
-
+    n_naives_by_generations.append(len(x_val))
+    n_liers_by_generations.append(len(x_val_lier))
     
-    plt.cla()
-    plt.scatter(y_val, x_val, c='b', alpha=0.4)
-    plt.scatter(y_val_lier, x_val_lier, c='r', marker='s', alpha=0.4)
+    ax1.cla()
+    ax1.scatter(y_val, x_val, c='b', alpha=0.4)
+    ax1.scatter(y_val_lier, x_val_lier, c='r', marker='s', alpha=0.4)
 
-    plt.title('Birds of the ' + str(gen) + ' generations')
-    plt.xlabel('Current age')
-    plt.ylabel('Birds fitness')
-    plt.legend(['Naives', 'Liers'])
+    ax1.set_title('Birds of the ' + str(generation) + ' generations')
+    ax1.set_xlabel('Current age')
+    ax1.set_ylabel('Birds fitness')
+
+    ax2.cla()
+    ax2.plot(range(generation), n_naives_by_generations, marker='o', c='b')
+    ax2.plot(range(generation), n_liers_by_generations, marker='s', c='r')
+    ax2.set_title('# of birds per generation')
+    ax2.set_xlabel('Generation')
+    ax2.set_ylabel('Number of birds')
+    ax2.legend(['Naives', 'Liers'])
 
     population.reproduce()
     population.disease()
@@ -50,6 +60,7 @@ def animate(i):
         print('Birds are extinct')
         os.system('pause')
 
-ani = animation.FuncAnimation(plt.gcf(), animate, interval =1000)
+fig, (ax1, ax2) = plt.subplots(1,2)
+ani = animation.FuncAnimation(fig, animate, interval =1000)
 plt.tight_layout()
 plt.show()
