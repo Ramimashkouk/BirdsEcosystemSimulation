@@ -16,15 +16,7 @@ generation = 0
 n_naives_by_generations = []
 n_liers_by_generations = []
 
-def animate(i):
-    global generation
-    generation +=1
-    print('Generation', generation)
-    print('Population is ', len(population.population))
-    
-    x_val, x_val_lier = population.get_birds_fitness()
-    y_val, y_val_lier = population.ages()
-
+def plot(x_val, x_val_lier, y_val, y_val_lier):
     x_val = randomize_values(x_val)
     y_val = randomize_values(y_val)
     x_val_lier = randomize_values(x_val_lier)
@@ -50,6 +42,17 @@ def animate(i):
     ax2.set_xlabel('Generation')
     ax2.set_ylabel('Number of birds')
     ax2.legend(['Naives', 'Liers'])
+
+def animate(i):
+    global generation
+    generation +=1
+    print('Generation', generation)
+    print('Population is ', len(population.population))
+    
+    x_val, x_val_lier = population.get_birds_fitness()
+    y_val, y_val_lier = population.ages()
+
+    plot(x_val, x_val_lier, y_val, y_val_lier)
 
     population.reproduce()
     population.disease()
