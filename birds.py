@@ -25,7 +25,7 @@ class Bird:
         random.shuffle(population)
         n_birds_asked_to_clean = count(1)
         for bird in population:
-            if next(n_birds_asked_to_clean)>1:
+            if next(n_birds_asked_to_clean)>MAX_HELP_REQUESTS:
                 break
             if bird.genes['would_clean'] == 0:
                 bird.fitness += 2 # as it uses this time to collect food, survive or pla pla
