@@ -11,7 +11,7 @@ def randomize_values(lst):
 
 population = Population(INIT_SUCKERS)
 population.add_cheat(N_CHEATS)
-population.get_fitness()
+
 generation = 0
 n_suckers_by_generations = []
 n_cheats_by_generations = []
@@ -61,15 +61,15 @@ def animate(i):
     y_val, y_val_cheat = population.ages()
 
     plot(x_val, x_val_cheat, y_val, y_val_cheat)
-
-    population.reproduce()
-    population.disease()
-    population.azrael_turn()
+    
     try:
         population.get_fitness()
     except ValueError:
         print('Birds are extinct')
         stop=1
+    population.reproduce()
+    population.disease()
+    population.azrael_turn()
 
 
 fig, (ax1, ax2) = plt.subplots(1,2)
