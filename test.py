@@ -78,4 +78,4 @@ plt.tight_layout(pad=1.6)
 plt.show()
 
 # writergif = animation.PillowWriter(fps=3)
-# ani.save('animation.gif',writer=writergif , dpi = 300)
+# ani.save('results/animation.gif',writer=writergif , dpi = 300)
