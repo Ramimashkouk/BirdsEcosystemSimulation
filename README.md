@@ -10,4 +10,11 @@ I wouldn't explain the ecosystem better than Richard Dawkins would do the system
 
 >"If the incidence of parasites is high, any individual sucker in a population of suckers can reckon on being groomed about as often as he grooms. The average pay-off for a sucker among suckers is therefore positive. They all do quite nicely in fact, and the word sucker seems inappropriate. But now suppose a cheat arises in the population. Being the only cheat, he can count on being groomed by everybody else, but he pays nothing in return. His average pay-off is better than the average for a sucker. Cheat genes will therefore start to spread through the population. Sucker genes will soon be driven to extinction. This is because, no matter what the ratio in the population, cheats will always do better than suckers. When the proportion of cheats reaches 90 per cent, the average pay-off for all individuals will be very low: many of both types may by now be dying of the infection carried by the ticks. But still the cheats will be doing better than the suckers. Even if the whole population declines toward extinction, there will never be any time when suckers do better than cheats. Therefore, as long as we consider only these two strategies, nothing can stop the extinction of the suckers and, very probably, the extinction of the whole population too."
 
-[animation](results/animation1.gif)
+*Playing around with parameters like INFECTION_RATE, MUTATION_RATE, INIT_SUCKER, N_CHEATS (init_cheats) would surprise you how ecosystem can be affected by small differences in nature's values.*
+
+
+
+[animation](results/animation1.gif) example, using the following parameters:<br />
+INFECTION_RATE = 0.42, MUTATION_RATE = 0.009
+
+
