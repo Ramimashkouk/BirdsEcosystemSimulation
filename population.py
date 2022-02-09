@@ -16,22 +16,24 @@ class Population():
             if bird.age in range(1,round(MAX_LIFESPAN)):
                 self.fit_partners.append(bird)
         
-        birds_fitness = np.array([bird.fitness for bird in self.fit_partners])**2
+        birds_fitness = np.array([bird.fitness for bird in self.fit_partners])**3
         self.max_fitness = birds_fitness.max()
         fitness_sum = birds_fitness.sum()
         self.probabilities = birds_fitness / fitness_sum
 
     def reproduce(self):
         new_population=[]
-        for _ in range(round(len(self.fit_partners)/2)): # All bird in fit_partners can reproduce, so they would love to :)
-            while True:
-                partner1= self.select()
-                partner2= self.select()
-                if partner1 is not partner2:
-                    break
-            for _ in range(2): # Get two children for these partners
+        # The change in reproduction method, from mating to copying one itself, was inivitable as a new 
+        # gene "have_memory" entered on the scene. Having two genes in the mating pool means that mating 
+        # birds of different types would very probably reproduce a bird of yet another type. and as we care 
+        # here about which type dominants the group, we don't have to take such a risk of randomness.
+        for _ in range(round(len(self.fit_partners))): # All bird in fit_partners can reproduce, so they would love to :)
+            partner1= self.select()
+            partner2= partner1
+            for _ in range(1): # Get one copy of itself
                 child = partner1.mate(partner2)
                 child.mutate()
+                child.determine_type()
                 new_population.append(child)
         self.population += new_population
         for bird in self.population:
@@ -73,30 +75,23 @@ class Population():
         for bird in self.population:
             if bird.age >= bird.lifespan or bird.sick_tick:
                     self.birds_to_death.append(bird)
-
-    def get_birds_fitness(self):
-        fitness = []
-        fitness_cheat = []
+        
+    def get_birds_attribute(self, attribute):
+        suckers = []
+        cheats = []
+        grudgers = []
         for bird in self.population:
-            if bird.genes['would_clean']:
-                fitness.append(bird.fitness)
-            else:
-                fitness_cheat.append(bird.fitness)
-        return fitness, fitness_cheat
+            if bird.type == 'sucker':
+                suckers.append(vars(bird)[attribute])
+            elif bird.type == 'cheat':
+                cheats.append(vars(bird)[attribute])
+            elif bird.type == 'grudger':
+                grudgers.append(vars(bird)[attribute])
+        return suckers, cheats, grudgers
 
-    def ages(self):
-        ages_cheat = []
-        ages = []
-        for bird in self.population:
-            if bird.genes['would_clean']:
-                ages.append(bird.age)
-            else:
-                ages_cheat.append(bird.age)
-        return ages, ages_cheat
 
-    def add_cheat(self, n_cheats):
-        for _ in range(n_cheats):
-            bird = Bird()
-            bird.genes['would_clean']=0
-            bird.aging()
-            self.population.append(bird)
+    def add_bird(self, type):
+        bird = Bird()
+        bird.give_type(type)
+        bird.aging()
+        self.population.append(bird)

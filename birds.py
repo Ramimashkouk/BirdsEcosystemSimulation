@@ -10,13 +10,36 @@ class Bird:
         self.__class__.BIRD_ID += 1
         self.sick_tick = 0
 
-        normal_distribution_ages = [random.normalvariate(2.5, 1) for _ in range(100)]
+        normal_distribution_ages = [random.normalvariate(MAX_LIFESPAN/2, MAX_LIFESPAN/4) for _ in range(100)]
         self.lifespan = normal_distribution_ages[random.randint(0,len(normal_distribution_ages)-1)]
         self.age = 0 # measured in generations
 
-        self.genes = {'would_clean':1, 'some_gene':0}
+        self.genes = {'would_clean':1, 'have_memory':0}
+        self.determine_type()
+        self.memorized_cheats=[]
         self.fitness = 1
     
+    def give_type(self, type):
+        if type == 'cheat':
+            self.genes.update({'would_clean':0, 'have_memory':0})
+        if type == 'smart':
+            self.genes.update({'would_clean':0, 'have_memory':1})
+        elif type == 'sucker':
+            self.genes.update({'would_clean':1, 'have_memory':0})
+        elif type == 'grudger':
+            self.genes.update({'would_clean':1, 'have_memory':1})
+        self.determine_type()
+
+    def determine_type(self):
+        if not self.genes['would_clean'] and not self.genes['have_memory']:
+            self.type = 'cheat'
+        elif not self.genes['would_clean'] and self.genes['have_memory']:
+            self.type = 'smart'
+        elif self.genes['would_clean'] and not self.genes['have_memory']:
+            self.type = 'sucker'
+        elif self.genes['would_clean'] and self.genes['have_memory']:
+            self.type = 'grudger'
+
     def aging(self):
         self.age += 1
 
@@ -24,13 +47,24 @@ class Bird:
         population = population.copy()
         random.shuffle(population)
         n_birds_asked_to_clean = count(1)
+        # if self.genes['have_memory']:
+        #     if len(self.genes.memorized_helpful):
+        #         self.sick_tick = 0
+        #         return
         for bird in population:
             if next(n_birds_asked_to_clean)>MAX_HELP_REQUESTS:
                 break
-            if bird.genes['would_clean'] == 0:
-                bird.fitness += 2 # as it uses this time to collect food, survive or pla pla
+            if not bird.genes['would_clean']:
+                if self.genes['have_memory']:
+                    self.memorized_cheats.append(bird.id)
                 continue
+            if bird.genes['have_memory']:
+                if self.id in bird.memorized_cheats:
+    
+                    continue
             self.sick_tick = 0
+            self.fitness += GAIN_SAVING_LIFE
+            bird.fitness -= LOSE_WASTING_TIME
             return
 
     def mate(self, bird):
